@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+    bootstrap="./src/autoload.php"
+    colors="false">
+    <testsuites>
+        <testsuite name="Validator Test Suite">
+            <directory>./test/</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>

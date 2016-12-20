@@ -3,7 +3,7 @@
 /**
 * Loads a simple PSR-4 autoloader for the Validator.
 */
-spl_autoload_register(function(string $class){
+spl_autoload_register(function(string $className){
 	//A mapping of namespace prefixes to base directories.
 	$prefixes = [
 		'Validator' => 'src\\Validator',
