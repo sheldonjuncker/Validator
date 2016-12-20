@@ -33,33 +33,6 @@ abstract class Rule
 	}
 
 	/**
-	* Determines if the rule was validated.
-	* @return boolean
-	*/
-	public function isValid(): bool
-	{
-		return $this->valid;
-	}
-
-	/**
-	* Gets the error message.
-	* @return string
-	*/
-	public function getError(): string
-	{
-		return $this->error;
-	}
-
-	/**
-	* Sets the error message.
-	* @param string $error
-	*/
-	public function setError(string $error)
-	{
-		$this->error = $error;
-	}
-
-	/**
 	* Gets the class name for a rule's name.
 	* @param string $ruleName
 	* @return string
@@ -71,7 +44,7 @@ abstract class Rule
 		{
 			$camel = ucfirst($camel);
 		}
-		
+
 		return 'Validator\\Rules\\' . implode('', $camels);
 	}
 }
