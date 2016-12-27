@@ -1,6 +1,8 @@
 <?php
 
 namespace Validator;
+use \ReflectionClass;
+use \ReflectionMethod;
 
 /**
 * This class is used as the base class for classes that are
@@ -35,12 +37,12 @@ abstract class ClassValidator
 	protected function getValidationMethods(): array
 	{
 		$class = new ReflectionClass($this);
-		$publicMethods = $class->getMethods( ReflectionMethod::IS_PUBLIC);
+		$publicMethods = $class->getMethods(ReflectionMethod::IS_PUBLIC);
 
 		$validationMethods = [];
-		foreach($validationMethods as $method)
+		foreach($publicMethods as $method)
 		{
-			if(strncmp($method->getName(), $this->methodPrefix, strlen($this->methodPrefix)) && $method != $this->methodPrefix)
+			if(!strncmp($method->getName(), $this->methodPrefix, strlen($this->methodPrefix)) && $method->getName() != $this->methodPrefix)
 			{
 				$validationMethods[] = $method;
 			}
@@ -74,7 +76,7 @@ abstract class ClassValidator
 	* @param ReflectionMethod $method
 	* @return bool
 	*/
-	public function validateMethod(ReflectionMethod $method): bool
+	protected function validateMethod(ReflectionMethod $method): bool
 	{
 		$rules = $method->invoke($this);
 		$data = null;
