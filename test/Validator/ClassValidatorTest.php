@@ -58,6 +58,16 @@ class ClassValidatorTest extends \PHPUnit_Framework_TestCase
 		$uv = new UserValidator($user);
 		$this->assertFalse($uv->validate());
 	}
+
+	public function testErrorMessage()
+	{
+		$user = new User("", "");
+		$uv = new UserValidator($user);
+		$uv->validate();
+		$errors = $uv->getErrors();
+		$this->assertTrue(isset($errors["name"]));
+		$this->assertTrue(isset($errors["password"]));
+	}
 }
 
 ?>

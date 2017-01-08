@@ -22,12 +22,27 @@ abstract class ClassValidator
 	protected $methodPrefix = 'validate';
 
 	/**
+	* @var array $errors The array of generated errors.
+	* Indexed by property name in property format
+	*/
+	protected $errors = [];
+
+	/**
 	* Constructor.
 	* @param object $class
 	*/
 	public function __construct($class)
 	{
 		$this->class = $class;
+	}
+
+	/**
+	* Gets error messages.
+	* @return array
+	*/
+	public function getErrors(): array
+	{
+		return $this->errors;
 	}
 
 	/**
@@ -106,7 +121,12 @@ abstract class ClassValidator
 		}
 
 		$validator = new DataValidator($data, $rules);
-		return $validator->validate();
+		$valid = $validator->validate();
+		if(!$valid)
+		{
+			$this->errors[$propertyName] = $validator->getErrors();
+		}
+		return $valid;
 	}
 
 	/**
@@ -115,15 +135,16 @@ abstract class ClassValidator
 	*/
 	public function validate(): bool
 	{
+		$valid = true;
 		$methods = $this->getValidationMethods();
 		foreach($methods as $method)
 		{
 			if(!$this->validateMethod($method))
 			{
-				return false;
+				$valid = false;
 			}
 		}
-		return true;
+		return $valid;
 	}
 }
 

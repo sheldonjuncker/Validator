@@ -43,9 +43,12 @@ class UserValidator extends ClassValidator
 	}
 }
 
-$user = new User('John', 'password');
+$user = new User('', '');
 $validator = new UserValidator($user);
+$validator->validate();
 
-var_dump($validator->validate());
+print "<pre>";
+print_r($validator->getErrors());
+print "</pre>";
 
 ?>
