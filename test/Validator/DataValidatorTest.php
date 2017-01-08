@@ -27,6 +27,16 @@ class DataValidatorTest extends \PHPUnit_Framework_TestCase
 		]);
 		$this->assertFalse($validator->validate());
 	}
+
+	public function testErrorMessage()
+	{
+		$validator = new DataValidator('data', [
+			'min-length' => 5
+		]);
+		$validator->validate();
+		$errors = $validator->getErrors();
+		$this->assertTrue(isset($errors['min-length']));
+	}
 }
 
 ?>

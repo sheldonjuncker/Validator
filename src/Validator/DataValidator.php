@@ -18,6 +18,21 @@ class DataValidator
 	protected $rules = [];
 
 	/**
+	* @var array $errors Error messages generated from invalid rules
+	* Array is indexed by rule name.
+	*/
+	protected $errors = [];
+
+	/**
+	* Gets list of errors.
+	* @return array
+	*/
+	public function getErrors()
+	{
+		return $this->errors;
+	}
+
+	/**
 	* Constructor.
 	* @param mixed $data The data to validate
 	* @param array $rules Validation rules
@@ -39,7 +54,14 @@ class DataValidator
 		$className = Rules\Rule::getClassName($ruleName);
 		$rule = new $className($ruleParams);
 		$rule->setData($this->data);
-		return $rule->validate();
+		$valid = $rule->validate();
+		
+		if(!$valid)
+		{
+			$this->errors[$ruleName] = $rule->getError();
+		}
+
+		return $valid;
 	}
 
 	/**
@@ -48,13 +70,15 @@ class DataValidator
 	*/
 	public function validate(): bool
 	{
+		$valid = true;
 		foreach($this->rules as $ruleName => $ruleParams)
 		{
 			if(!$this->validateRule($ruleName, $ruleParams))
-				return false;
+			{
+				$valid = false;
+			}
 		}
-
-		return true;
+		return $valid;
 	}
 }
 
