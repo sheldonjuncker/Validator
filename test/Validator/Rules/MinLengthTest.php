@@ -41,6 +41,16 @@ class MinLengthTest extends \PHPUnit_Framework_TestCase
 		$min->setData(str_split("Hello, world"));
 		$this->assertFalse($min->validate());
 	}
+
+	public function testErrorMessage()
+	{
+		$minValue = 10;
+		$expectedError = "length must be greater or equal to {$minValue}";
+		$min = new MinLength($minValue);
+		$min->setData("123456789");
+		$min->validate();
+		$this->assertEquals($min->getError(), $expectedError);
+	}
 }
 
 ?>

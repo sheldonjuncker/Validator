@@ -11,7 +11,7 @@ class MinLength extends Rule
 	/**
 	* @var double $min The minimum value for the data.
 	*/
-	protected $min = null;
+	protected $min;
 
 	/**
 	* Constructor
@@ -23,22 +23,37 @@ class MinLength extends Rule
 	}
 
 	/**
+	* Generates the error message.
+	*/
+	public function generateErrorMessage()
+	{
+		$this->error = "length must be greater or equal to {$this->min}";
+	}
+
+	/**
 	* Validates the data.
 	* @return bool
 	*/
 	public function validate(): bool
 	{
+		$valid = false;
+
 		if(is_array($this->data))
 		{
-			return count($this->data) >= $this->min;
+			$valid = count($this->data) >= $this->min;
 		}
 
 		else if(is_string($this->data))
 		{
-			return strlen($this->data) >= $this->min;
+			$valid = strlen($this->data) >= $this->min;
 		}
 
-		return false;
+		if(!$valid)
+		{
+			$this->generateErrorMessage();
+		}
+
+		return $valid;
 	}
 }
 

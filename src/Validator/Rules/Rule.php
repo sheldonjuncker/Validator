@@ -14,9 +14,9 @@ abstract class Rule
 	protected $data = null;
 
 	/**
-	* @var string $error The error message for invalid data.
+	* @var string $error The error message generated for invalid data.
 	*/
-	protected $errors = null;
+	protected $error = null;
 
 	/**
 	* @var bool $valid Indicated whether the rule has been validated.
@@ -31,6 +31,20 @@ abstract class Rule
 	{
 		$this->data = $data;
 	}
+
+	/**
+	* Gets the error message.
+	* @return string|null
+	*/
+	public function getError()
+	{
+		return $this->error;
+	}
+
+	/**
+	* Generates error messages for each rule.
+	*/
+	abstract protected function generateErrorMessage();
 
 	/**
 	* Gets the class name for a rule's name.

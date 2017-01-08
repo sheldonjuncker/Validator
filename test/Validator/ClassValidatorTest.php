@@ -5,7 +5,10 @@
 */
 class User
 {
+	//One public property
 	public $name;
+
+	//And a private one with a getter
 	private $password;
 
 	public function __construct($name, $password)
